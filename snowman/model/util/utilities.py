@@ -1,4 +1,6 @@
 import numpy as np
+from keras.preprocessing.text import one_hot
+from keras.preprocessing.sequence import pad_sequences
 
 class DataPrep:
     def __init__(self):
@@ -12,13 +14,13 @@ class DataPrep:
         
     def to_one_hot_array(self, string_list, max_index= 256):
         self.max_index = max_index
-        x_one_hot = [one_hot(" ".join(list(sentence)), n = max_index) for sentence in url_strings]
+        x_one_hot = [one_hot(" ".join(list(sentence)), n = max_index) for sentence in string_list]
         self.max_len = max([len(s) for s in x_one_hot])
         X = np.array(pad_sequences(x_one_hot, maxlen=self.max_len))
         
         self.relevant_indices = np.unique(X)
         
-        charset = set(list(" ".join(url_strings)))
+        charset = set(list(" ".join(string_list)))
         self.charset = charset 
         
         encoding = one_hot(" ".join(charset),n=max_index)

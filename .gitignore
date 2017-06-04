@@ -3,3 +3,4 @@ env/*
 DS_Store
 fixtures/datasets/*
 !fixtures/datasets/fetch_data.sh
+*.pyc
