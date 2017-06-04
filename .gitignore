@@ -1,0 +1,5 @@
+env/*
+*~
+DS_Store
+fixtures/datasets/*.txt
+fixtures/datasets/*.csv
