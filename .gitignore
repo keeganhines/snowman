@@ -1,5 +1,5 @@
 env/*
 *~
 DS_Store
-fixtures/datasets/*.txt
-fixtures/datasets/*.csv
+fixtures/datasets/*
+!fixtures/datasets/fetch_data.sh
