@@ -61,6 +61,7 @@ class TextModel(object):
 		self.max_char_index = model_configuration["max_char_index"]
 
 	def predict(self, input_string):
-		pass
-		# need to convert input_string into a one hot array of the proper size 
-		# then can pass that array through model.predict_proba 
+		transformed = self.prep_util.to_one_hot(
+			input_string, self.prep_util.max_index, self.prep_util.max_len)
+		score = self.net.predict_proba(transformed)
+		return score

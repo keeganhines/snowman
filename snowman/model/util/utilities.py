@@ -11,8 +11,14 @@ class DataPrep:
             lines = file.readlines()
         raw_url_strings = [line[:-2] for line in lines[skip_lines:]]
         return raw_url_strings
+
+    def to_one_hot(self, input_str,max_index=256, padding_length=30):
+        """Transform single input string into zero-padded one-hot (index) encoding."""
+        input_one_hot = one_hot(" ".join(list(input_str)), n = max_index)
+        return pad_sequences(x_one_hot, maxlen=padding_length)
         
     def to_one_hot_array(self, string_list, max_index= 256):
+        """Transform list of input strings into numpy array of zero-padded one-hot (index) encodings."""
         self.max_index = max_index
         x_one_hot = [one_hot(" ".join(list(sentence)), n = max_index) for sentence in string_list]
         self.max_len = max([len(s) for s in x_one_hot])
