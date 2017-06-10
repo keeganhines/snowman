@@ -1,5 +1,5 @@
 # IMPORTS
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation, Conv1D
 from keras.optimizers import SGD
 from keras.layers.embeddings import Embedding
@@ -15,7 +15,8 @@ import os
 VERSION = "0.0.1"
 
 MODEL_OUTPUT_FILEPATH = os.path.abspath("../../fixtures/models/model_"+VERSION + "/")
-MODEL_WEIGHTS_OUTPUT_FILEPATH = "../../fixtures/models/model_"+VERSION + "/weights"
+MODEL_WEIGHTS_OUTPUT_FILEPATH = os.path.abspath("../../fixtures/models/model_"+VERSION + "/weights")
+MODEL_CONFIG_OUTPUT_FILEPATH = os.path.abspath("../../fixtures/models/model_"+VERSION + "/config.json")
 
 class TextModel(object):
 	def __init__(self):
@@ -54,19 +55,24 @@ class TextModel(object):
 			os.mkdir(MODEL_OUTPUT_FILEPATH) 
 
 		self.net.save(MODEL_WEIGHTS_OUTPUT_FILEPATH)
-		model_configuration = {"max_sequence_length" : self.max_sequence_length,
-		"max_char_index": self.max_char_index}
+		model_configuration = {"max_sequence_length" : self.prep.max_len,
+		"max_char_index": self.prep.max_index}
 		with open(MODEL_OUTPUT_FILEPATH+"/config.json",'w+') as out_file:
 			out_file.write(json.dumps(model_configuration))
 
 
 	def load(self):
-		model_configuration = json.load(MODEL_OUTPUT_FILEPATH+"/config.json")
-		self.max_sequence_length = model_configuration["max_sequence_length"]
-		self.max_char_index = model_configuration["max_char_index"]
+		with open(MODEL_CONFIG_OUTPUT_FILEPATH, "r") as in_file:
+			model_configuration = json.load(in_file)
+		print "Loaded model config: " + str(model_configuration)
+
+		self.prep.max_len = model_configuration["max_sequence_length"]
+		self.prep.max_index = model_configuration["max_char_index"]
+
+		self.net = load_model(MODEL_WEIGHTS_OUTPUT_FILEPATH)
 
 	def predict(self, input_string):
-		transformed = self.prep_util.to_one_hot(
-			input_string, self.prep_util.max_index, self.prep_util.max_len)
+		transformed = self.prep.to_one_hot(
+			input_string, self.prep.max_index, self.prep.max_len)
 		score = self.net.predict_proba(transformed)
 		return score

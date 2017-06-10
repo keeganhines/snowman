@@ -4,10 +4,12 @@ from snowman.model.text_model import TextModel
 class TestModelLoad(unittest.TestCase):
 
 	def test_load_serialized_model(self):
-		# model = TextModel()
-		# model.load()
-		# prediction = model.predict("exampledomain.com")
-		# self.assertTrue( prediction > 0 & prediction < 1)
+		model = TextModel()
+		model.load()
+		test_string = ".switchvpn.net"
+		prediction = model.predict(test_string)
+		print "Score for test string [%s] is %d " % (test_string, prediction)
+		self.assertTrue( prediction > 0 and prediction < 1)
 
 if __name__ == '__main__':
 	unittest.main()

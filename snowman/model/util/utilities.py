@@ -15,7 +15,7 @@ class DataPrep:
     def to_one_hot(self, input_str,max_index=256, padding_length=30):
         """Transform single input string into zero-padded one-hot (index) encoding."""
         input_one_hot = one_hot(" ".join(list(input_str)), n = max_index)
-        return pad_sequences(x_one_hot, maxlen=padding_length)
+        return pad_sequences([input_one_hot], maxlen=padding_length)
         
     def to_one_hot_array(self, string_list, max_index= 256):
         """Transform list of input strings into numpy array of zero-padded one-hot (index) encodings."""
