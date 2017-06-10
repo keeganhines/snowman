@@ -8,7 +8,7 @@ class TestModelLoad(unittest.TestCase):
 		model.load()
 		test_string = ".switchvpn.net"
 		prediction = model.predict(test_string)
-		print "Score for test string [%s] is %d " % (test_string, prediction)
+		print "Score for test string [" + test_string + "] is: " + str(prediction)
 		self.assertTrue( prediction > 0 and prediction < 1)
 
 if __name__ == '__main__':
