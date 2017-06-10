@@ -6,14 +6,15 @@ from keras.layers.embeddings import Embedding
 from keras.layers.pooling import GlobalMaxPooling1D
 import numpy as np
 from snowman.model.util.utilities import DataPrep
-from snowman.model import text_cnn
+from snowman.model.text_cnn import text_cnn
 from sklearn.metrics import roc_curve, auc
 import random
 import json
+import os
 
 VERSION = "0.0.1"
 
-MODEL_OUTPUT_FILEPATH = "../../fixtures/models/model_"+VERSION + "/"
+MODEL_OUTPUT_FILEPATH = os.path.abspath("../../fixtures/models/model_"+VERSION + "/")
 MODEL_WEIGHTS_OUTPUT_FILEPATH = "../../fixtures/models/model_"+VERSION + "/weights"
 
 class TextModel(object):
@@ -22,22 +23,22 @@ class TextModel(object):
 		self.max_sequence_length = None
 		self.max_char_index = None
 		self.net = None
-		self.prep_util = DataPrep()
+		self.prep = DataPrep()
 
 	def train(self):
 
 		# data preparation
-		bl_strings = prep.load_url_file("../../fixtures/datasets/url_blacklist.txt", skip_lines=3)
-		wl_strings = prep.load_url_file("../../fixtures/datasets/url_whitelist.txt", skip_lines=3)
+		bl_strings = self.prep.load_url_file("../../fixtures/datasets/url_blacklist.txt", skip_lines=3)
+		wl_strings = self.prep.load_url_file("../../fixtures/datasets/url_whitelist.txt", skip_lines=3)
 
 		url_strings = bl_strings + wl_strings
 
-		X = prep.to_one_hot_array(url_strings)
+		X = self.prep.to_one_hot_array(url_strings)
 		Y = np.concatenate( [ np.ones(len(bl_strings)), np.zeros(len(wl_strings)) ])
-		self.net = text_cnn(prep.max_index , prep.max_len)
+		self.net = text_cnn(self.prep.max_index , self.prep.max_len)
 
 		# model training
-		(X_train, X_test,Y_train,Y_test) = prep.train_test_split(X,Y,.5)
+		(X_train, X_test,Y_train,Y_test) = self.prep.train_test_split(X,Y,.5)
 		self.net.fit(X_train, Y_train, batch_size=128, epochs=5)
 
 		#model evaluation
@@ -48,10 +49,14 @@ class TextModel(object):
 
 
 	def save(self):
+		print "Saving model under directory: " + MODEL_OUTPUT_FILEPATH
+		if not os.path.isdir(MODEL_OUTPUT_FILEPATH):
+			os.mkdir(MODEL_OUTPUT_FILEPATH) 
+
 		self.net.save(MODEL_WEIGHTS_OUTPUT_FILEPATH)
-		model_cofiguration = {"max_sequence_length" : self.max_sequence_length,
+		model_configuration = {"max_sequence_length" : self.max_sequence_length,
 		"max_char_index": self.max_char_index}
-		with open(MODEL_OUTPUT_FILEPATH+"/config.json",'rw') as out_file:
+		with open(MODEL_OUTPUT_FILEPATH+"/config.json",'w+') as out_file:
 			out_file.write(json.dumps(model_configuration))
 
 
