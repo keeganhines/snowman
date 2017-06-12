@@ -14,9 +14,11 @@ import os
 
 VERSION = "0.0.1"
 
-MODEL_OUTPUT_FILEPATH = os.path.abspath("../../fixtures/models/model_"+VERSION + "/")
-MODEL_WEIGHTS_OUTPUT_FILEPATH = os.path.abspath("../../fixtures/models/model_"+VERSION + "/weights")
-MODEL_CONFIG_OUTPUT_FILEPATH = os.path.abspath("../../fixtures/models/model_"+VERSION + "/config.json")
+pwd  = os.path.dirname(__file__)
+
+MODEL_OUTPUT_FILEPATH = os.path.join(pwd, "../../fixtures/models/model_"+VERSION + "/")
+MODEL_WEIGHTS_OUTPUT_FILEPATH = os.path.join(pwd,"../../fixtures/models/model_"+VERSION + "/weights")
+MODEL_CONFIG_OUTPUT_FILEPATH = os.path.join(pwd,"../../fixtures/models/model_"+VERSION + "/config.json")
 
 class TextModel(object):
 	def __init__(self):
