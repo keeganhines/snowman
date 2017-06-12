@@ -1,1 +1,1 @@
-web: gunicorn snowman/backend/api:api
+web: gunicorn snowman.backend:api -b 0.0.0.0:5000
