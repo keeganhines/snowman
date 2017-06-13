@@ -20,6 +20,9 @@ MODEL_OUTPUT_FILEPATH = os.path.join(pwd, "../../fixtures/models/model_"+VERSION
 MODEL_WEIGHTS_OUTPUT_FILEPATH = os.path.join(pwd,"../../fixtures/models/model_"+VERSION + "/weights")
 MODEL_CONFIG_OUTPUT_FILEPATH = os.path.join(pwd,"../../fixtures/models/model_"+VERSION + "/config.json")
 
+TRAINING_DATA_BLACKLIST_FILEPATH = os.path.join(pwd, "../../fixtures/datasets/url_blacklist.txt")
+TRAINING_DATA_WHITELIST_FILEPATH = os.path.join(pwd, "../../fixtures/datasets/url_whitelist.txt")
+
 class TextModel(object):
 	def __init__(self):
 		self.version = VERSION
@@ -31,8 +34,8 @@ class TextModel(object):
 	def train(self):
 
 		# data preparation
-		bl_strings = self.prep.load_url_file("../../fixtures/datasets/url_blacklist.txt", skip_lines=3)
-		wl_strings = self.prep.load_url_file("../../fixtures/datasets/url_whitelist.txt", skip_lines=3)
+		bl_strings = self.prep.load_url_file(TRAINING_DATA_BLACKLIST_FILEPATH, skip_lines=3)
+		wl_strings = self.prep.load_url_file(TRAINING_DATA_WHITELIST_FILEPATH, skip_lines=3)
 
 		url_strings = bl_strings + wl_strings
 
