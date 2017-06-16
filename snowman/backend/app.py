@@ -1,6 +1,7 @@
 from flask_restful import Resource, Api, reqparse
 from flask import Flask, request
 from snowman.model.text_model import TextModel
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -21,4 +22,5 @@ class ModelApi(Resource):
 api.add_resource(ModelApi,"/model")
 
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=33507)
+	port = int(os.environ.get('PORT', 5000))
+	app.run(host='0.0.0.0', port=port)
