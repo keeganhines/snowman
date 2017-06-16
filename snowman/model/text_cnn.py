@@ -15,8 +15,8 @@ def text_cnn(max_seq_index, max_seq_length):
 	# MODEL DEFINITION
 	model = Sequential()
 	model.add(Embedding(max_seq_index, 15, input_length=max_seq_length))
-	model.add( Conv1D(15,3))
-	model.add(Dropout(.2))
+	model.add(Conv1D(15,3))
+	#model.add(Dropout(.2))
 	model.add(GlobalMaxPooling1D())
 	model.add(Dense(1))
 	model.add(Activation('sigmoid'))
