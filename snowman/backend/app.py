@@ -2,7 +2,7 @@ from flask_restful import Resource, Api, reqparse
 from flask import Flask, request
 from snowman.model.text_model import TextModel
 
-app = Flast(__name__)
+app = Flask(__name__)
 api = Api(app)
 
 model = TextModel()
