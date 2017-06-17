@@ -11,7 +11,7 @@ model.load()
 
 class ModelApi(Resource):
 	def get(self):
-		return "nothing here"
+		return "messge received"
 
 	def put(self):
 		url = request.form['url']
