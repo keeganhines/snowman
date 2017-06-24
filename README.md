@@ -7,12 +7,12 @@ This project focuses on the use of convolutional neural networks for the identif
 
 Further, the resulting models are deployed through a REST API so that model scoring and prediction is exposed for generic use.
 
-## Contents
-[Use](#use)
-[Installation](#installation)
-[Deployment](#deployment)
-[Backend](#backend)
-[Modeling](#modeling)
+# Contents
+1. [Use](#use)
+2. [Installation](#installation)
+3. [Deployment](#deployment)
+4. [Backend](#backend)
+5. [Modeling](#modeling)
 
 ## Use
 
