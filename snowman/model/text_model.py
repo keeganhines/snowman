@@ -12,7 +12,7 @@ import random
 import json
 import os
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 pwd  = os.path.dirname(__file__)
 
@@ -48,7 +48,7 @@ class TextModel(object):
 		self.net.fit(X_train, Y_train, batch_size=128, epochs=5)
 
 		#model evaluation
-		Y_pred = self.net.predict_proba(X_test)
+		Y_pred = self.net.predict(X_test)
 		fpr, tpr, thresholds = roc_curve(Y_test, Y_pred)
 		auc_score = auc(fpr,tpr)
 		print "\n AUC Score: " + str(auc_score) + "\n"
@@ -79,5 +79,5 @@ class TextModel(object):
 	def predict(self, input_string):
 		transformed = self.prep.to_one_hot(
 			input_string, self.prep.max_index, self.prep.max_len)
-		score = self.net.predict_proba(transformed)
+		score = self.net.predict(transformed)
 		return score
