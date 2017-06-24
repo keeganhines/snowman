@@ -45,7 +45,7 @@ class TextModel(object):
 
 		# model training
 		(X_train, X_test,Y_train,Y_test) = self.prep.train_test_split(X,Y,.5)
-		self.net.fit(X_train, Y_train, batch_size=128, epochs=5)
+		self.net.fit(X_train, Y_train, batch_size=128, epochs=25)
 
 		#model evaluation
 		Y_pred = self.net.predict(X_test)
@@ -67,6 +67,7 @@ class TextModel(object):
 
 
 	def load(self):
+		print "Loading model config from: " + MODEL_CONFIG_OUTPUT_FILEPATH 
 		with open(MODEL_CONFIG_OUTPUT_FILEPATH, "r") as in_file:
 			model_configuration = json.load(in_file)
 		print "Loaded model config: " + str(model_configuration)
